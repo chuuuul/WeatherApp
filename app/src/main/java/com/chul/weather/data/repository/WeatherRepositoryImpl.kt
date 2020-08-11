@@ -28,8 +28,8 @@ class WeatherRepositoryImpl(private val weatherRemoteDataSource: WeatherRemoteDa
         val singleList = ArrayList<Single<WeatherInfo>>()
 
         var targetDate: LocalDate
-        for (i in 0 until duration) {
-            targetDate = baseDate.plusDays(i.toLong())
+        for (afterDay in 0 until duration) {
+            targetDate = baseDate.plusDays(afterDay.toLong())
             val singleWeatherInfo = getWeather(locationCode, targetDate)
             singleList.add(singleWeatherInfo)
         }
