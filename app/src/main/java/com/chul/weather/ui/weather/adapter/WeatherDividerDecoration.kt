@@ -18,7 +18,7 @@ class WeatherDividerDecoration(private val context: Context) : RecyclerView.Item
 
     init {
         paint1dp.style = Paint.Style.STROKE
-        paint1dp.color = Color.BLACK
+        paint1dp.color = Color.GRAY
         paint1dp.strokeWidth = dpToPx(1)
 
         paint2dp.style = Paint.Style.STROKE
