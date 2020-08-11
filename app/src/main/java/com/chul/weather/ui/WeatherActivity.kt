@@ -29,5 +29,6 @@ class WeatherActivity : AppCompatActivity() {
 
     private fun settingAdapter() {
         rv_weather_list.adapter = WeatherAdapter()
+        rv_weather_list.addItemDecoration(DividerDecoration(this))
     }
 }
