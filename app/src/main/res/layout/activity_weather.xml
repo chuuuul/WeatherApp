@@ -9,13 +9,13 @@
 
         <variable
             name="vm"
-            type="com.chul.weather.ui.WeatherViewModel" />
+            type="com.chul.weather.ui.weather.WeatherViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.WeatherActivity">
+        tools:context=".ui.weather.WeatherActivity">
 
         <FrameLayout
             android:layout_width="match_parent"

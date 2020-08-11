@@ -1,4 +1,4 @@
-package com.chul.weather.ui
+package com.chul.weather.ui.weather.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -21,14 +21,14 @@ class WeatherAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         return when (viewType) {
             WeatherAdapterModel.category -> {
                 val dataBinding: ItemCategoryBinding = DataBindingUtil.inflate(
-                        LayoutInflater.from(parent.context), R.layout.item_category, parent, false
+                    LayoutInflater.from(parent.context), R.layout.item_category, parent, false
                 )
                 CategoryViewHolder(dataBinding)
             }
             else -> {
 
                 val dataBinding: ItemWeatherBinding = DataBindingUtil.inflate(
-                        LayoutInflater.from(parent.context), R.layout.item_weather, parent, false
+                    LayoutInflater.from(parent.context), R.layout.item_weather, parent, false
                 )
                 WeatherViewHolder(dataBinding)
             }
@@ -69,7 +69,7 @@ class WeatherAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 }
 
 class WeatherViewHolder(private val binding: ItemWeatherBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    RecyclerView.ViewHolder(binding.root) {
 
     fun onBind(weather: WeatherInfo) {
         binding.weatherInfo = weather
@@ -78,7 +78,7 @@ class WeatherViewHolder(private val binding: ItemWeatherBinding) :
 }
 
 class CategoryViewHolder(private val binding: ItemCategoryBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    RecyclerView.ViewHolder(binding.root) {
 
     fun onBind(category: CategoryInfo) {
         binding.categoryInfo = category
