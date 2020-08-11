@@ -23,8 +23,10 @@ class WeatherViewModel(private val repository: WeatherRepositoryImpl) : ViewMode
     private val londonWeatherList = mutableListOf<WeatherAdapterModel>()
     private val chicagoWeatherList = mutableListOf<WeatherAdapterModel>()
 
-    private val _weatherAdapterModelList = MutableLiveData<MutableList<WeatherAdapterModel>>(mutableListOf())
-    val weatherAdapterModelList: LiveData<MutableList<WeatherAdapterModel>> = _weatherAdapterModelList
+    private val _weatherAdapterModelList =
+        MutableLiveData<MutableList<WeatherAdapterModel>>(mutableListOf())
+    val weatherAdapterModelList: LiveData<MutableList<WeatherAdapterModel>> =
+        _weatherAdapterModelList
 
     private val updateSubject = PublishSubject.create<Unit>()
 
@@ -59,32 +61,32 @@ class WeatherViewModel(private val repository: WeatherRepositoryImpl) : ViewMode
         }
 
         repository.getWeather(locationCode, duration)
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe {
-                    list.add(WeatherAdapterModel(CategoryInfo(title)))
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe {
+                list.add(WeatherAdapterModel(CategoryInfo(title)))
+            }.doAfterSuccess {
+                Log.d("_chul", "After Success : $title")
+                updateSubject.onNext(Unit)
+            }.subscribe({ weatherInfoList ->
+                weatherInfoList.forEach { weatherInfo ->
+                    list.add(WeatherAdapterModel(weatherInfo))
                 }
-                .subscribe({
-                    list.add(WeatherAdapterModel(it))
-                }, {
-                    Log.e("_chul", "${it.message}")
-                }, {
-                    Log.d("_chul", "On Complete : $title")
-                    list.sortWith(compareBy({ it.type }, { it.weatherInfo?.date }))
-                    updateSubject.onNext(Unit)
-                })
-                .addTo(compositeDisposable)
+            }, {
+                Log.e("_chul", "${it.message}")
+            })
+            .addTo(compositeDisposable)
     }
 
     private fun adapterUpdateObserve() {
         updateSubject.buffer(3, 3)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe {
-                    val mutableList = mutableListOf<WeatherAdapterModel>()
-                    mutableList.addAll(seoulWeatherList)
-                    mutableList.addAll(londonWeatherList)
-                    mutableList.addAll(chicagoWeatherList)
-                    _weatherAdapterModelList.value = mutableList
-                }.addTo(compositeDisposable)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                val mutableList = mutableListOf<WeatherAdapterModel>()
+                mutableList.addAll(seoulWeatherList)
+                mutableList.addAll(londonWeatherList)
+                mutableList.addAll(chicagoWeatherList)
+                _weatherAdapterModelList.value = mutableList
+            }.addTo(compositeDisposable)
     }
 
     private fun unbindViewModel() {
