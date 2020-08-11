@@ -3,6 +3,10 @@ package com.chul.weather.ext
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.chul.weather.R
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
+import java.util.*
 
 @BindingAdapter("android:abbreviationToFullText")
 fun TextView.abbreviationToFullText(abb: String?) {
@@ -25,4 +29,23 @@ fun TextView.abbreviationToFullText(abb: String?) {
     }
 
     this.text = this.context.getString(stringInt)
+}
+
+@BindingAdapter("android:dateToAbbreviation")
+fun TextView.dateToAbbreviation(localDate: LocalDate?) {
+    if (localDate == null) {
+        return
+    }
+
+    val today = LocalDate.now()
+    val dateDiff = ChronoUnit.DAYS.between(today, localDate).toInt()
+
+    val abb = when (dateDiff) {
+        0 -> "Today"
+        1 -> "Tomorrow"
+        else -> {
+            localDate.format(DateTimeFormatter.ofPattern("E d MMM", Locale.ENGLISH))
+        }
+    }
+    this.text = abb.toString()
 }

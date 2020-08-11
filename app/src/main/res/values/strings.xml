@@ -8,6 +8,7 @@
     <string name="weather_item_max_text_debug">max_value</string>
     <string name="weather_item_min_text_debug">min_value</string>
     <string name="category_title">Category</string>
+    <string name="weather_temp_format">"%.0f˚C"</string>
 
     <string name="sn">Snow</string>
     <string name="sl">Sleet</string>
@@ -19,5 +20,6 @@
     <string name="hc">Heavy Cloud</string>
     <string name="lc">Light Cloud</string>
     <string name="c">Clear</string>
+
 
 </resources>
