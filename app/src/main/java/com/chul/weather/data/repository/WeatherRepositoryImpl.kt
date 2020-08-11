@@ -11,8 +11,9 @@ import java.time.LocalDate
 class WeatherRepositoryImpl(private val weatherRemoteDataSource: WeatherRemoteDataSource) :
     WeatherRepository {
 
-    override fun getWeather(locationCode: String, date: LocalDate): Single<WeatherInfo> {
-        return weatherRemoteDataSource.getWeather(locationCode, date)
+    override fun getWeather(locationCode: String, date: LocalDate?): Single<WeatherInfo> {
+        val targetDate = date ?: LocalDate.now()
+        return weatherRemoteDataSource.getWeather(locationCode, targetDate)
             .map { it[0].mapToWeatherInfo() }
             .subscribeOn(Schedulers.io())
     }

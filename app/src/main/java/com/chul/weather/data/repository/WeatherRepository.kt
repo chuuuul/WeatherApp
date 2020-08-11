@@ -6,7 +6,7 @@ import io.reactivex.Single
 import java.time.LocalDate
 
 interface WeatherRepository {
-    fun getWeather(locationCode: String, date: LocalDate): Single<WeatherInfo>
+    fun getWeather(locationCode: String, date: LocalDate? = null): Single<WeatherInfo>
     fun getWeather(
         locationCode: String,
         duration: Int,
