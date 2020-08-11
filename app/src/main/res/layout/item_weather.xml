@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="weatherInfo"
+            type="com.chul.weather.data.model.WeatherInfo" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <TextView
+            android:id="@+id/tv_weather_date_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="@{weatherInfo.date.toString()}"
+            android:textSize="20sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/weather_item_date_hint" />
+
+        <ImageView
+            android:id="@+id/iv_weather_img"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/ic_launcher_foreground"
+            app:layout_constraintStart_toStartOf="@id/tv_weather_date_name"
+            app:layout_constraintTop_toBottomOf="@id/tv_weather_date_name" />
+
+        <TextView
+            android:id="@+id/tv_weather_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@{weatherInfo.weatherStateAbbr}"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@id/iv_weather_img"
+            app:layout_constraintStart_toEndOf="@id/iv_weather_img"
+            app:layout_constraintTop_toTopOf="@id/iv_weather_img"
+            tools:text="@string/weather_item_description_hint" />
+
+        <TextView
+            android:id="@+id/tv_weather_max_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:text="@string/weather_item_max_text"
+            app:layout_constraintBottom_toBottomOf="@id/tv_weather_description"
+            app:layout_constraintEnd_toStartOf="@id/tv_weather_max_value"
+            app:layout_constraintTop_toTopOf="@id/tv_weather_description" />
+
+        <TextView
+            android:id="@+id/tv_weather_max_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:text='@{String.format("%.1f", weatherInfo.maxTemp) }'
+            app:layout_constraintBottom_toBottomOf="@id/tv_weather_description"
+            app:layout_constraintEnd_toStartOf="@id/tv_weather_min_text"
+            app:layout_constraintTop_toTopOf="@id/tv_weather_description"
+            tools:text="@string/weather_item_max_hint" />
+
+        <TextView
+            android:id="@+id/tv_weather_min_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:text="@string/weather_item_min_text"
+            app:layout_constraintBottom_toBottomOf="@id/tv_weather_description"
+            app:layout_constraintEnd_toStartOf="@id/tv_weather_min_value"
+            app:layout_constraintTop_toTopOf="@id/tv_weather_description" />
+
+        <TextView
+            android:id="@+id/tv_weather_min_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:text='@{String.format("%.1f", weatherInfo.minTemp) }'
+            app:layout_constraintBottom_toBottomOf="@id/tv_weather_description"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_weather_description"
+            tools:text="@string/weather_item_min_hint" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

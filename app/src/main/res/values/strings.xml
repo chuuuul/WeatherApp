@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Weather</string>
+
+    <string name="weather_item_date_text_debug">Date Name</string>
+    <string name="weather_item_description_text_debug">description</string>
+    <string name="weather_item_max_text">Max</string>
+    <string name="weather_item_min_text">Min</string>
+    <string name="weather_item_max_text_debug">max_value</string>
+    <string name="weather_item_min_text_debug">min_value</string>
+    <string name="category_title">Category</string>
+
 </resources>

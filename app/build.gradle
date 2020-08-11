@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
@@ -32,6 +33,10 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8
     }
+
+    buildFeatures {
+        dataBinding true
+    }
 }
 
 dependencies {
@@ -44,6 +49,9 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.10'
+
+    // RecyclerView
+    implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
@@ -61,5 +69,8 @@ dependencies {
     // Koin
     implementation "org.koin:koin-android:$koin_version"
     implementation "org.koin:koin-android-viewmodel:$koin_version"
+
+    // LiveData KTX
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$livedata_ktx_version"
 
 }
