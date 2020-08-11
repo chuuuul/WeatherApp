@@ -14,7 +14,10 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="@drawable/border_top_bottom_0_3dp">
 
 
         <TextView
@@ -22,22 +25,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:text="@{weatherInfo.date.toString()}"
+            android:dateToAbbreviation="@{weatherInfo.date}"
             android:textSize="20sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/weather_item_date_hint" />
+            tools:text="@string/weather_item_date_text_debug" />
 
         <ImageView
             android:id="@+id/iv_weather_img"
-            android:layout_width="0dp"
+            android:layout_width="40dp"
             android:layout_height="0dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
+            android:abbreviationToImage="@{weatherInfo.weatherStateAbbr}"
             android:adjustViewBounds="true"
-            android:src="@drawable/ic_launcher_foreground"
             app:layout_constraintStart_toStartOf="@id/tv_weather_date_name"
             app:layout_constraintTop_toBottomOf="@id/tv_weather_date_name" />
 
@@ -46,12 +48,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:text="@{weatherInfo.weatherStateAbbr}"
+            android:abbreviationToFullText="@{weatherInfo.weatherStateAbbr}"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="@id/iv_weather_img"
             app:layout_constraintStart_toEndOf="@id/iv_weather_img"
             app:layout_constraintTop_toTopOf="@id/iv_weather_img"
-            tools:text="@string/weather_item_description_hint" />
+            tools:text="@string/weather_item_description_text_debug" />
 
         <TextView
             android:id="@+id/tv_weather_max_text"
@@ -68,11 +70,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:text='@{String.format("%.1f", weatherInfo.maxTemp) }'
+            android:text='@{@string/weather_temp_format(weatherInfo.maxTemp) }'
             app:layout_constraintBottom_toBottomOf="@id/tv_weather_description"
             app:layout_constraintEnd_toStartOf="@id/tv_weather_min_text"
             app:layout_constraintTop_toTopOf="@id/tv_weather_description"
-            tools:text="@string/weather_item_max_hint" />
+            tools:text="@string/weather_item_max_text_debug" />
 
         <TextView
             android:id="@+id/tv_weather_min_text"
@@ -89,11 +91,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:text='@{String.format("%.1f", weatherInfo.minTemp) }'
+            android:text='@{@string/weather_temp_format(weatherInfo.minTemp) }'
             app:layout_constraintBottom_toBottomOf="@id/tv_weather_description"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_weather_description"
-            tools:text="@string/weather_item_min_hint" />
+            tools:text="@string/weather_item_min_text_debug" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
