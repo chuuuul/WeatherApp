@@ -23,6 +23,9 @@ class WeatherViewModel(private val repository: WeatherRepositoryImpl) : ViewMode
     private val londonWeatherList = mutableListOf<WeatherAdapterModel>()
     private val chicagoWeatherList = mutableListOf<WeatherAdapterModel>()
 
+    private val _isLoading = MutableLiveData<Boolean>(false)
+    val isLoading: LiveData<Boolean> = _isLoading
+
     private val _weatherAdapterModelList =
         MutableLiveData<MutableList<WeatherAdapterModel>>(mutableListOf())
     val weatherAdapterModelList: LiveData<MutableList<WeatherAdapterModel>> =
@@ -43,7 +46,7 @@ class WeatherViewModel(private val repository: WeatherRepositoryImpl) : ViewMode
 
     private fun getWeather(locationCode: String, duration: Int) {
         val title: String
-        val list: List<WeatherAdapterModel>
+        val list: MutableList<WeatherAdapterModel>
 
         when (locationCode) {
             LOC_CODE_SEOUL -> {
@@ -63,6 +66,8 @@ class WeatherViewModel(private val repository: WeatherRepositoryImpl) : ViewMode
         repository.getWeather(locationCode, duration)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe {
+                setLoadingVisible(true)
+                list.clear()
                 list.add(WeatherAdapterModel(CategoryInfo(title)))
             }.doAfterSuccess {
                 Log.d("_chul", "After Success : $title")
@@ -80,6 +85,7 @@ class WeatherViewModel(private val repository: WeatherRepositoryImpl) : ViewMode
     private fun adapterUpdateObserve() {
         updateSubject.buffer(3, 3)
             .observeOn(AndroidSchedulers.mainThread())
+            .doAfterNext { setLoadingVisible(false) }
             .subscribe {
                 val mutableList = mutableListOf<WeatherAdapterModel>()
                 mutableList.addAll(seoulWeatherList)
@@ -87,6 +93,12 @@ class WeatherViewModel(private val repository: WeatherRepositoryImpl) : ViewMode
                 mutableList.addAll(chicagoWeatherList)
                 _weatherAdapterModelList.value = mutableList
             }.addTo(compositeDisposable)
+    }
+
+    private fun setLoadingVisible(visible: Boolean) {
+        if (_isLoading.value != visible) {
+            _isLoading.value = visible
+        }
     }
 
     private fun unbindViewModel() {
