@@ -30,10 +30,10 @@ class WeatherViewModel(private val repository: WeatherRepositoryImpl) : ViewMode
 
     init {
         adapterUpdateObserve()
-        getWeather(6)
+        getAllWeather(6)
     }
 
-    private fun getWeather(duration: Int) {
+    private fun getAllWeather(duration: Int) {
         getWeather(LOC_CODE_SEOUL, duration)
         getWeather(LOC_CODE_LONDON, duration)
         getWeather(LOC_CODE_CHICAGO, duration)
