@@ -1,4 +1,4 @@
-package com.chul.weather.ui
+package com.chul.weather.ui.weather
 
 import android.util.Log
 import androidx.lifecycle.LiveData

@@ -1,10 +1,12 @@
-package com.chul.weather.ui
+package com.chul.weather.ui.weather
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.chul.weather.R
 import com.chul.weather.databinding.ActivityWeatherBinding
+import com.chul.weather.ui.weather.adapter.WeatherAdapter
+import com.chul.weather.ui.weather.adapter.WeatherDividerDecoration
 import kotlinx.android.synthetic.main.activity_weather.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -28,7 +30,12 @@ class WeatherActivity : AppCompatActivity() {
     }
 
     private fun settingAdapter() {
-        rv_weather_list.adapter = WeatherAdapter()
-        rv_weather_list.addItemDecoration(DividerDecoration(this))
+        rv_weather_list.adapter =
+            WeatherAdapter()
+        rv_weather_list.addItemDecoration(
+            WeatherDividerDecoration(
+                this
+            )
+        )
     }
 }

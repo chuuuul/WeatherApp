@@ -1,4 +1,4 @@
-package com.chul.weather.ui
+package com.chul.weather.ui.weather.adapter
 
 import android.content.Context
 import android.graphics.Canvas
@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.chul.weather.data.model.WeatherAdapterModel
 
 
-class DividerDecoration(private val context: Context) : RecyclerView.ItemDecoration() {
+class WeatherDividerDecoration(private val context: Context) : RecyclerView.ItemDecoration() {
 
     private val paint1dp = Paint()
     private val paint2dp = Paint()
