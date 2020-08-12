@@ -63,15 +63,17 @@ class WeatherViewModel(private val repository: WeatherRepositoryImpl) : ViewMode
             }
         }
 
-        repository.getWeather(locationCode, duration)
+        repository.getWeather(locationCode, duration, null)
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe {
+            .doOnNext {
                 setLoadingVisible(true)
                 list.clear()
                 list.add(WeatherAdapterModel(CategoryInfo(title)))
-            }.doAfterSuccess {
-                Log.d("_chul", "After Success : $title")
-                updateSubject.onNext(Unit)
+            }
+            .doAfterNext {
+                if (it.isNotEmpty()) {
+                    updateSubject.onNext(Unit)
+                }
             }.subscribe({ weatherInfoList ->
                 weatherInfoList.forEach { weatherInfo ->
                     list.add(WeatherAdapterModel(weatherInfo))
