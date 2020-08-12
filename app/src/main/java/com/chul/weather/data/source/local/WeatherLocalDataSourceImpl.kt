@@ -11,9 +11,9 @@ class WeatherLocalDataSourceImpl(private val weatherDao: WeatherDao) : WeatherLo
     override fun saveWeather(
         locationCode: String,
         weatherList: List<WeatherInfo>
-    ) {
+    ): Completable {
         val weatherEntity = WeatherEntity(locationCode, weatherList)
-        weatherDao.insertWeather(weatherEntity)
+        return weatherDao.insertWeather(weatherEntity)
     }
 
     override fun loadWeather(locationCode: String): Single<WeatherEntity> {
