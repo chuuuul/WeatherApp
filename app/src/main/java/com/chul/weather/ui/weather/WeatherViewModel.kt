@@ -7,9 +7,9 @@ import androidx.lifecycle.ViewModel
 import com.chul.weather.data.model.CategoryInfo
 import com.chul.weather.data.model.WeatherAdapterModel
 import com.chul.weather.data.repository.WeatherRepositoryImpl
-import com.chul.weather.util.LOC_CODE_CHICAGO
-import com.chul.weather.util.LOC_CODE_LONDON
-import com.chul.weather.util.LOC_CODE_SEOUL
+import com.chul.weather.util.LocationCode.CHICAGO
+import com.chul.weather.util.LocationCode.LONDON
+import com.chul.weather.util.LocationCode.SEOUL
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -34,14 +34,14 @@ class WeatherViewModel(private val repository: WeatherRepositoryImpl) : ViewMode
     private val updateSubject = PublishSubject.create<Unit>()
 
     init {
-        adapterUpdateObserve()
+        adapterUpdateObserve(3)
         getAllWeather(6)
     }
 
     private fun getAllWeather(duration: Int) {
-        getWeather(LOC_CODE_SEOUL, duration)
-        getWeather(LOC_CODE_LONDON, duration)
-        getWeather(LOC_CODE_CHICAGO, duration)
+        getWeather(SEOUL, duration)
+        getWeather(LONDON, duration)
+        getWeather(CHICAGO, duration)
     }
 
     private fun getWeather(locationCode: String, duration: Int) {
@@ -49,11 +49,11 @@ class WeatherViewModel(private val repository: WeatherRepositoryImpl) : ViewMode
         val list: MutableList<WeatherAdapterModel>
 
         when (locationCode) {
-            LOC_CODE_SEOUL -> {
+            SEOUL -> {
                 title = "Seoul"
                 list = seoulWeatherList
             }
-            LOC_CODE_LONDON -> {
+            LONDON -> {
                 title = "London"
                 list = londonWeatherList
             }
@@ -63,15 +63,17 @@ class WeatherViewModel(private val repository: WeatherRepositoryImpl) : ViewMode
             }
         }
 
-        repository.getWeather(locationCode, duration)
+        repository.getWeather(locationCode, duration, null)
             .observeOn(AndroidSchedulers.mainThread())
-            .doOnSubscribe {
+            .doOnNext {
                 setLoadingVisible(true)
                 list.clear()
                 list.add(WeatherAdapterModel(CategoryInfo(title)))
-            }.doAfterSuccess {
-                Log.d("_chul", "After Success : $title")
-                updateSubject.onNext(Unit)
+            }
+            .doAfterNext {
+                if (it.isNotEmpty()) {
+                    updateSubject.onNext(Unit)
+                }
             }.subscribe({ weatherInfoList ->
                 weatherInfoList.forEach { weatherInfo ->
                     list.add(WeatherAdapterModel(weatherInfo))
@@ -82,8 +84,8 @@ class WeatherViewModel(private val repository: WeatherRepositoryImpl) : ViewMode
             .addTo(compositeDisposable)
     }
 
-    private fun adapterUpdateObserve() {
-        updateSubject.buffer(3, 3)
+    private fun adapterUpdateObserve(bufferCount: Int) {
+        updateSubject.buffer(bufferCount, bufferCount)
             .observeOn(AndroidSchedulers.mainThread())
             .doAfterNext { setLoadingVisible(false) }
             .subscribe {
