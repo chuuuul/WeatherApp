@@ -10,7 +10,7 @@ fun ImageView.abbreviationToImage(abb: String?) {
     if (abb == null) {
         return
     }
-    val url = "https://www.metaweather.com/static/img/weather/png/$abb.png"
+    val url = "https://www.metaweather.com/static/img/weather/png/64/$abb.png"
 
     Glide.with(this)
         .load(url.ifBlank { R.drawable.ic_baseline_not_interested_24 })
