@@ -8,13 +8,18 @@ android {
     buildToolsVersion "29.0.3"
 
     defaultConfig {
-        applicationId "com.chul.wheather"
+        applicationId "com.chul.weather"
         minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    configurations.all() {
+        resolutionStrategy.force "org.antlr:antlr4-runtime:4.5.3"
+        resolutionStrategy.force "org.antlr:antlr4-tool:4.5.3"
     }
 
     buildTypes {
