@@ -39,6 +39,7 @@ class WeatherRepositoryImpl(
                 Log.d("_chul", "캐시에 저장된 날씨가 없습니다.")
                 listOf()
             }
+            .doOnSuccess { Log.d("_chul", "캐시 데이터 불러오기 성공") }
 
         val remote = Flowable.fromIterable(0..duration)
             .subscribeOn(Schedulers.io())
@@ -46,13 +47,20 @@ class WeatherRepositoryImpl(
                 targetDate = baseDate.plusDays(afterDate.toLong())
                 getWeather(locationCode, targetDate).toFlowable()
             }.toList()
-            .doOnSuccess {
-                weatherLocalDataSource.saveWeather(locationCode, it.toList())
-                    .subscribeOn(Schedulers.io())
-                    .subscribe {
-                        Log.d("_chul", "캐시에 날씨 저장 : $it")
-                    }
+            .onErrorReturn {
+                Log.e("chul", "Remote Data 가져오기 실패")
+                listOf()
             }
+            .flatMap { weatherList ->
+                weatherLocalDataSource.saveWeather(locationCode, weatherList)
+                    .subscribeOn(Schedulers.io())
+                    .andThen(Single.just(weatherList))
+                    .doAfterSuccess() {
+                        Log.d("_chul", "캐시에 날씨 저장 : $weatherList")
+                    }
+                    .doOnSuccess { Log.d("_chul", "Remote Data 가져오기 성공") }
+            }
+
         return local.concatWith(remote).subscribeOn(Schedulers.io())
     }
 }
