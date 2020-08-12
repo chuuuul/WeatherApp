@@ -34,7 +34,7 @@ class WeatherViewModel(private val repository: WeatherRepositoryImpl) : ViewMode
     private val updateSubject = PublishSubject.create<Unit>()
 
     init {
-        adapterUpdateObserve()
+        adapterUpdateObserve(3)
         getAllWeather(6)
     }
 
@@ -82,8 +82,8 @@ class WeatherViewModel(private val repository: WeatherRepositoryImpl) : ViewMode
             .addTo(compositeDisposable)
     }
 
-    private fun adapterUpdateObserve() {
-        updateSubject.buffer(3, 3)
+    private fun adapterUpdateObserve(bufferCount: Int) {
+        updateSubject.buffer(bufferCount, bufferCount)
             .observeOn(AndroidSchedulers.mainThread())
             .doAfterNext { setLoadingVisible(false) }
             .subscribe {
