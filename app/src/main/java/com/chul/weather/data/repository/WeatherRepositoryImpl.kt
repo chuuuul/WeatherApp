@@ -61,7 +61,7 @@ class WeatherRepositoryImpl(
                     .andThen(Single.just(weatherList))
                     .doAfterSuccess { list ->
                         if (list.isNotEmpty()) {
-                            Log.d("_chul", "캐시에 날씨 저장 : $weatherList")
+                            Log.d("_chul", "캐시에 날씨 저장")
                         }
                     }
                     .doOnSuccess { list ->
@@ -69,7 +69,7 @@ class WeatherRepositoryImpl(
                             Log.e("chul", "Remote Data 가져오기 실패")
                             return@doOnSuccess
                         } else {
-                            Log.e("_chul", "Remote Data 가져오기 성공")
+                            Log.d("_chul", "Remote Data 가져오기 성공")
                         }
                     }
             }
