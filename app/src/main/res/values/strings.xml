@@ -21,5 +21,9 @@
     <string name="lc">Light Cloud</string>
     <string name="c">Clear</string>
 
+    <string name="activity_back_press">"종료하시려면 한번 더 누르세요."</string>
+    <string name="activity_disconnect_network">"네트워크 연결이 되어 있지 않습니다.</string>
+    <string name="activity_dialog_confirm">"확인"</string>
+
 
 </resources>
