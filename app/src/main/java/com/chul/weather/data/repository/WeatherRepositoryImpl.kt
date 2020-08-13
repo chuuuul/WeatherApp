@@ -36,29 +36,42 @@ class WeatherRepositoryImpl(
             .map {
                 it.weatherInfoList
             }.onErrorReturn {
-                Log.d("_chul", "캐시에 저장된 날씨가 없습니다.")
                 listOf()
             }
-            .doOnSuccess { Log.d("_chul", "캐시 데이터 불러오기 성공") }
+            .doOnSuccess { list ->
+                if (list.isNotEmpty()) {
+                    Log.d("_chul", "캐시 데이터 불러오기 성공")
+                } else {
+                    Log.d("_chul", "캐시에 저장된 날씨가 없습니다.")
+                }
+            }
 
         val remote = Flowable.fromIterable(0..duration)
-            .subscribeOn(Schedulers.io())
+            .subscribeOn(Schedulers.newThread())
             .concatMapEager { afterDate ->
                 targetDate = baseDate.plusDays(afterDate.toLong())
                 getWeather(locationCode, targetDate).toFlowable()
             }.toList()
             .onErrorReturn {
-                Log.e("chul", "Remote Data 가져오기 실패")
                 listOf()
             }
             .flatMap { weatherList ->
                 weatherLocalDataSource.saveWeather(locationCode, weatherList)
                     .subscribeOn(Schedulers.io())
                     .andThen(Single.just(weatherList))
-                    .doAfterSuccess() {
-                        Log.d("_chul", "캐시에 날씨 저장 : $weatherList")
+                    .doAfterSuccess { list ->
+                        if (list.isNotEmpty()) {
+                            Log.d("_chul", "캐시에 날씨 저장")
+                        }
                     }
-                    .doOnSuccess { Log.d("_chul", "Remote Data 가져오기 성공") }
+                    .doOnSuccess { list ->
+                        if (list.isEmpty()) {
+                            Log.e("chul", "Remote Data 가져오기 실패")
+                            return@doOnSuccess
+                        } else {
+                            Log.d("_chul", "Remote Data 가져오기 성공")
+                        }
+                    }
             }
 
         return local.concatWith(remote).subscribeOn(Schedulers.io())

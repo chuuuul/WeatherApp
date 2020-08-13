@@ -10,6 +10,7 @@ import com.chul.weather.data.repository.WeatherRepositoryImpl
 import com.chul.weather.util.LocationCode.CHICAGO
 import com.chul.weather.util.LocationCode.LONDON
 import com.chul.weather.util.LocationCode.SEOUL
+import com.chul.weather.util.livedata.Event
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -26,6 +27,9 @@ class WeatherViewModel(private val repository: WeatherRepositoryImpl) : ViewMode
     private val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean> = _isLoading
 
+    private val _getWeatherEvent = MutableLiveData<Event<Unit>>()
+    val getWeatherEvent: LiveData<Event<Unit>> = _getWeatherEvent
+
     private val _weatherAdapterModelList =
         MutableLiveData<MutableList<WeatherAdapterModel>>(mutableListOf())
     val weatherAdapterModelList: LiveData<MutableList<WeatherAdapterModel>> =
@@ -35,13 +39,16 @@ class WeatherViewModel(private val repository: WeatherRepositoryImpl) : ViewMode
 
     init {
         adapterUpdateObserve(3)
-        getAllWeather(6)
     }
 
-    private fun getAllWeather(duration: Int) {
-        getWeather(SEOUL, duration)
-        getWeather(LONDON, duration)
-        getWeather(CHICAGO, duration)
+    fun getAllWeather() {
+        getWeather(SEOUL, 6)
+        getWeather(LONDON, 6)
+        getWeather(CHICAGO, 6)
+    }
+
+    fun networkStateOn() {
+        _getWeatherEvent.value = Event(Unit)
     }
 
     private fun getWeather(locationCode: String, duration: Int) {
@@ -102,6 +109,7 @@ class WeatherViewModel(private val repository: WeatherRepositoryImpl) : ViewMode
             _isLoading.value = visible
         }
     }
+
 
     private fun unbindViewModel() {
         compositeDisposable.clear()
