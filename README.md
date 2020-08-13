@@ -18,7 +18,7 @@ Seoul, London, Chicago 순서로 6일간의 날씨를 표시하는 앱
 - 기온 뒤에 ˚C 추가
 - 오늘, 내일 날짜를 Today, Tomorrow로 바꾸기
 - 뒤로가기 2번 클릭해서 종료
- 
+- 날씨 로딩중일때 ProgressBar 표시
 
 ## 사용 언어
  - Kotlin
