@@ -1,6 +1,7 @@
 package com.chul.weather
 
 import android.app.Application
+import com.chul.weather.di.appModule
 import com.chul.weather.di.networkModule
 import com.chul.weather.di.repositoryModule
 import com.chul.weather.di.viewModelModule
@@ -18,7 +19,7 @@ class WeatherApplication : Application() {
                 androidLogger()
             }
             androidContext(this@WeatherApplication)
-            modules(networkModule, repositoryModule, viewModelModule)
+            modules(networkModule, repositoryModule, viewModelModule, appModule)
         }
 
     }

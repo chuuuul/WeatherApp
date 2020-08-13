@@ -13,6 +13,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class WeatherActivity : AppCompatActivity() {
 
     private val vm: WeatherViewModel by viewModel()
+    private val networkCheckHelper: NetworkCheckHelper by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
