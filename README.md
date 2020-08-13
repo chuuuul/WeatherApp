@@ -3,6 +3,10 @@
 ## 앱 설명
 Seoul, London, Chicago 순서로 6일간의 날씨를 표시하는 앱
 
+## 화면
+<img src="https://github.com/chuuuul/WeatherApp/blob/master/1.jpg" width="30%">
+<img src="https://github.com/chuuuul/WeatherApp/blob/master/2.jpg" width="30%">
+
 ## 구현 목록
 
 - 최초 앱 실행 시 네트워크 연결 체크
@@ -13,7 +17,7 @@ Seoul, London, Chicago 순서로 6일간의 날씨를 표시하는 앱
 - 리스트에 날씨 약어에 따라 이미지 로드
 - 기온 뒤에 ˚C 추가
 - 오늘, 내일 날짜를 Today, Tomorrow로 바꾸기
-- 뒤로가기 2번 클릭해서 종류
+- 뒤로가기 2번 클릭해서 종료
  
 
 ## 사용 언어
@@ -32,4 +36,6 @@ Seoul, London, Chicago 순서로 6일간의 날씨를 표시하는 앱
 
 ## 날씨 API
  - https://www.metaweather.com/api/
+ 
+
 
